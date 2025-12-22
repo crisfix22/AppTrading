@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, TouchableOpacity } from 'react-native';
 import { styles } from './inputCustom.styles';
 import { InputCustomProps } from './interface/inputCustom.interface';
 import { TextCustomComponent } from '../TextCustom/textCustom.component';
 import { useInputCustom } from './hooks/useIInputCustom';
-
+import { InputIcon } from './components/inputIcon/inputIcon.component';
 
 export const InputCustomComponent = ({ label,error,helperText,size = 'md',
-    leftIcon,rightIcon,editable = true,containerStyle,style, placeholder, placeholderTextColor, onFocus, onBlur, onChangeText }: InputCustomProps) => {
+    leftIcon,rightIcon,editable = true,containerStyle,style, placeholder, placeholderTextColor, 
+    onFocus, onBlur, onChangeText, onLeftIconPress, onRightIconPress, nativeTextInputProps }: InputCustomProps) => {
   const [isFocused, setIsFocused] = useState(false);
-  const { getColor, getPaddingLeftIcon, getPaddingRightIcon } = useInputCustom();
+  const { getColor, getPaddingLeftIcon, 
+    getPaddingRightIcon, handleLeftIconPress, handleRightIconPress } = useInputCustom(onLeftIconPress, onRightIconPress);
+
+  
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -23,7 +27,7 @@ export const InputCustomComponent = ({ label,error,helperText,size = 'md',
           !editable && styles.disabled,
         ]}
       >
-        {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
+        {leftIcon && <InputIcon icon={leftIcon} onPress={handleLeftIconPress} style={styles.leftIcon} />}
         
         <TextInput
           style={[
@@ -45,9 +49,10 @@ export const InputCustomComponent = ({ label,error,helperText,size = 'md',
             onBlur?.();
           }}
           onChangeText={(text) => onChangeText?.(text)}
+          {...nativeTextInputProps}
         />
         
-        {rightIcon && <View style={styles.rightIcon}>{rightIcon}</View>}
+        {rightIcon && <InputIcon icon={rightIcon} onPress={handleRightIconPress} style={styles.rightIcon} />}
       </View>
       
       {error && <TextCustomComponent text={error} fontSize="sm" color="danger" />}

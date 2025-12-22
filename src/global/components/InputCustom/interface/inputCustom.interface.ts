@@ -20,4 +20,6 @@ export interface InputCustomProps {
     onBlur?: () => void;
     onChangeText: (text: string) => void;
     nativeTextInputProps?: Omit<TextInputProps, 'style' | 'children' | 'placeholderTextColor' | 'editable' | 'onFocus' | 'onBlur' | 'onChangeText'>;
+    onLeftIconPress?: () => void;
+    onRightIconPress?: () => void;
   }
