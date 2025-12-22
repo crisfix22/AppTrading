@@ -5,15 +5,15 @@
 
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { LoginScreen } from './src/screens/login/login.screen';
 import { StatusBar, useColorScheme } from 'react-native';
+import { RootNavigation } from './src/global/navigation/root.navigation';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <LoginScreen />
+      <RootNavigation />
     </SafeAreaProvider>
   );
 }

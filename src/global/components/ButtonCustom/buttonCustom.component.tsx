@@ -7,7 +7,7 @@ import { useButtonCustom } from './hooks/useButtonCustom.hook';
 
 
 export const ButtonCustomComponent = ({ title, variant = 'primary', size = 'md',loading = false,fullWidth = false,
-  disabled = false,leftIcon,rightIcon,style,nativeButtonProps } : ButtonCustomProps) => {
+  disabled = false,leftIcon,rightIcon,style,nativeButtonProps, onPress } : ButtonCustomProps) => {
   const { getColorByVariant, getActivityIndicatorColor } = useButtonCustom();
 
   return (
@@ -22,6 +22,7 @@ export const ButtonCustomComponent = ({ title, variant = 'primary', size = 'md',
       ]}
       disabled={disabled || loading}
       activeOpacity={0.7}
+      onPress={onPress}
       {...nativeButtonProps}
     >
       {loading ? (
