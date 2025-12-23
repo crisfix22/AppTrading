@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { PortfolioScreen } from "../../portfolio/portfolio.screen";
 import { InstrumentsScreen } from "../../instruments/instruments.screen";
-import MaterialIcons from "@react-native-vector-icons/material-icons";
+import { Ionicons } from "@react-native-vector-icons/ionicons";
 
 type TabBarIconType = 'Portfolio' | 'Instruments';
 
@@ -10,8 +10,8 @@ type TabBarIconComponentType = {
 };
 
 const TabBarIconComponent: TabBarIconComponentType = {
-    Portfolio: (focused: boolean, color: string, size: number) => <MaterialIcons name={'account-balance-wallet'} size={size} color={color} />,
-    Instruments: (focused: boolean, color: string, size: number) => <MaterialIcons name={'trending-up'} size={size} color={color} />,
+    Portfolio: (focused: boolean, color: string, size: number) => <Ionicons name={'wallet'} size={size} color={color} />,
+    Instruments: (focused: boolean, color: string, size: number) => <Ionicons name={'trending-up'} size={size} color={color} />,
 }
 
 export const HomeTabs = createBottomTabNavigator({

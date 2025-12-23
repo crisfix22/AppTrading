@@ -3,11 +3,11 @@ import { TextCustomComponent } from "../../global/components/TextCustom/textCust
 import { InputCustomComponent } from "../../global/components/InputCustom/inputCustom.component";
 import { ButtonCustomComponent } from "../../global/components/ButtonCustom/buttonCustom.component";
 import { styles } from "./login.styles";
-import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { Colors } from "../../global/styles/color.styles";
 import { useState } from "react";
 import { useLogin } from "./hooks/useLogin.hook";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@react-native-vector-icons/ionicons";
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState("test@test.com");
@@ -43,13 +43,13 @@ export const LoginScreen = () => {
           nativeTextInputProps={{
             value: email,
           }}
-          rightIcon={<MaterialIcons name="email" size={24} color={Colors.outline} />}
+          rightIcon={<Ionicons name="mail" size={24} color={Colors.outline} />}
         />
         <InputCustomComponent
           label="Password"
           placeholder="Password"
           placeholderTextColor="secondary"
-          rightIcon={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} size={24}  color={Colors.outline}/>}
+          rightIcon={<Ionicons name={showPassword ? "eye" : "eye-off"} size={24}  color={Colors.outline}/>}
           onRightIconPress={handleShowPassword}
           onChangeText={(text) => setPassword(text)}
           nativeTextInputProps={{

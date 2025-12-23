@@ -1524,7 +1524,7 @@
     prompts "^2.4.2"
     semver "^7.5.2"
 
-"@react-native-vector-icons/common@^12.4.0":
+"@react-native-vector-icons/common@^12.3.0":
   version "12.4.0"
   resolved "https://registry.yarnpkg.com/@react-native-vector-icons/common/-/common-12.4.0.tgz#60fc6f4d9a0e7e7b06f7c3a996e320c72c588a15"
   integrity sha512-t9W0q+AW7WH1Oj5aEg7wGNXDLZJb5sIVkAWo5qtad3PcbBADqoCdikRK/ToLK+xlB0TxjcuL0T74ogudMkYGeA==
@@ -1533,12 +1533,12 @@
     picocolors "^1.1.1"
     plist "^3.1.0"
 
-"@react-native-vector-icons/material-icons@^12.4.0":
-  version "12.4.0"
-  resolved "https://registry.yarnpkg.com/@react-native-vector-icons/material-icons/-/material-icons-12.4.0.tgz#818d1818a3978c596fa8fe3a1ac1cf65bc9f2ae2"
-  integrity sha512-R0C2BBoZZ5sjZJYLbFx1vfyYwfbOcBHRYzRHDKUlsCdplc34HLa0JyHYGMGx3q5xHAJB6Dl4N2cmZUVALuJ60w==
+"@react-native-vector-icons/ionicons@^12.3.0":
+  version "12.3.0"
+  resolved "https://registry.yarnpkg.com/@react-native-vector-icons/ionicons/-/ionicons-12.3.0.tgz#d4062610b7c8b2bd50f49ebc6119365a9c7a5a4b"
+  integrity sha512-H/rlYzUEm0hhwwca2k6VMNjy0rLcjan6iwyaYDXMhsJQl7O4+Qkm7uVd/KEreS5gXfGuntUlcSa9GSn+dYqnjA==
   dependencies:
-    "@react-native-vector-icons/common" "^12.4.0"
+    "@react-native-vector-icons/common" "^12.3.0"
 
 "@react-native/assets-registry@0.83.1":
   version "0.83.1"
