@@ -17,7 +17,7 @@ export const InstrumentsScreen = () => {
             <FlatList 
             data={instruments} 
             renderItem={({ item }) => <TextCustomComponent text={item.name} fontSize="md" color="secondary" fontWeight="regular" />}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => `${item.id}-${item.name}`}
             ListEmptyComponent={<TextCustomComponent text="No hay instrumentos" fontSize="md" color="secondary" fontWeight="regular" />}
             ListFooterComponentStyle={{ marginTop: 20 }}
             />

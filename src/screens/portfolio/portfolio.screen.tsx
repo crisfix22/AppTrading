@@ -14,7 +14,7 @@ export const PortfolioScreen = () => {
         <ContainerComponent addSafeAreaInsets={true}>
             {loading && <ActivityIndicator size="large" color={Colors.primary} />}
             <TextCustomComponent text="Portfolio" fontSize="3xl" color="primary" fontWeight="bold" />
-            <FlatList keyExtractor={(item) => `${item.instrumentId}-${item.ticker}`} 
+            <FlatList keyExtractor={(item) => `${item.instrumentId}-${Math.random().toString()}`} 
             data={portfolio} renderItem={({ item }) => <TextCustomComponent text={item.ticker} fontSize="md" color="secondary" fontWeight="regular" />} />
             <TextCustomComponent text={error || ''} fontSize="md" color="danger" fontWeight="regular" />
         </ContainerComponent>
