@@ -10,8 +10,8 @@ import { useLogin } from "./hooks/useLogin.hook";
 import { useNavigation } from "@react-navigation/native";
 
 export const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@test.com");
+  const [password, setPassword] = useState("123456");
   const [showPassword, setShowPassword] = useState(false);
   const { validateEmailAndPassword } = useLogin();
   const navigation = useNavigation(); 
@@ -40,6 +40,9 @@ export const LoginScreen = () => {
           placeholder="Email"
           placeholderTextColor="secondary"
           onChangeText={(text) => setEmail(text)}
+          nativeTextInputProps={{
+            value: email,
+          }}
           rightIcon={<MaterialIcons name="email" size={24} color={Colors.outline} />}
         />
         <InputCustomComponent
@@ -51,6 +54,7 @@ export const LoginScreen = () => {
           onChangeText={(text) => setPassword(text)}
           nativeTextInputProps={{
             secureTextEntry: !showPassword,
+            value: password,
           }}
         />
       </View>
