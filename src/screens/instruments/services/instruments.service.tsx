@@ -2,7 +2,7 @@ import { get } from "../../../global/api/axios.instance";
 import { BaseResponse } from "../../../global/api/interface/axios.interface";
 import { Instrument, InstrumentResponse } from "./interface/instruments.interface";
 
-const BASE_URL = 'https://dummy-api-topaz.vercel.app';
+const INSTRUMENTS_URL = 'https://dummy-api-topaz.vercel.app';
 
 /**
  * Build the instrument
@@ -25,7 +25,7 @@ const buildInstrument = (instrument: InstrumentResponse): Instrument => {
  */
 export const getInstruments = async (): Promise<BaseResponse<Array<Instrument>>> => {
     try {
-        const response = await get<Array<InstrumentResponse>>(`${BASE_URL}/instruments`);
+        const response = await get<Array<InstrumentResponse>>(`${INSTRUMENTS_URL}/instruments`);
         if (response.status === 'success') {
             const result: Array<Instrument> = response.data.map((instrument: InstrumentResponse) => (   
                 buildInstrument(instrument)

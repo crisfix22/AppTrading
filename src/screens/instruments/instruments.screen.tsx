@@ -14,12 +14,14 @@ export const InstrumentsScreen = () => {
         <ContainerComponent addSafeAreaInsets={true}>
             {loading && <ActivityIndicator size="large" color={Colors.primary} />}
             <TextCustomComponent text="Instruments" fontSize="3xl" color="primary" fontWeight="bold" />
-            <FlatList data={instruments} 
+            <FlatList 
+            data={instruments} 
             renderItem={({ item }) => <TextCustomComponent text={item.name} fontSize="md" color="secondary" fontWeight="regular" />}
             keyExtractor={(item) => item.id.toString()}
             ListEmptyComponent={<TextCustomComponent text="No hay instrumentos" fontSize="md" color="secondary" fontWeight="regular" />}
             ListFooterComponentStyle={{ marginTop: 20 }}
             />
+            <TextCustomComponent text={error || ''} fontSize="md" color="danger" fontWeight="regular" />
         </ContainerComponent>
     )
 }
