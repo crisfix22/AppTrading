@@ -8,8 +8,10 @@ import { modalStyles } from '../../../../global/styles/modal.styles'
 import { useOrderModal } from './hooks/useOrderModal.hook'
 import { SeparatorComponent } from '../../../../global/components/Separator/separator.component'
 import { InputCustomComponent } from '../../../../global/components/InputCustom/inputCustom.component'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ButtonVariantType } from '../../../../global/components/ButtonCustom/interface/buttomCustom.interface'
+import { OrderResponse } from '../../services/interface/order.interface'
+import { OrderStatusModalComponent } from '../orderStatusModal/orderStatusModal.component'
 
 export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalProps) => {
     const [selectedValue, setSelectedValue] = useState<OrderModalValue>('buy');
@@ -19,6 +21,14 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
     const [limitPrice, setLimitPrice] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(0);
     const { getHeaderButtons, getOrderTypeButtons, onHandleConfirm} = useOrderModal();
+    const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(null);
+    const [showOrderStatusModal, setShowOrderStatusModal] = useState(false);
+    const [showOrderModal, setShowOrderModal] = useState(visible);
+
+    useEffect(() => {
+        console.log('visible', visible);
+        setShowOrderModal(visible);
+    }, [visible]);
 
     const onValueChange = (value: OrderModalValue) => {
         setSelectedValue(value);
@@ -28,11 +38,13 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
     const onOrderTypeChange = (value: OrderTypeValue) => {
         setSelectedOrderType(value);
     }
-    const onConfirm = () => {
-        onHandleConfirm(selectedValue, selectedOrderType, limitPrice);
+    const onConfirm = async () => {
+        const response = await onHandleConfirm({selectedValue, selectedOrderType, limitPrice, data, quantity});
+        setOrderResponse(response.data);
+        setShowOrderStatusModal(response.data !== null);
     }
     return (
-        <Modal visible={visible} transparent animationType="slide" onRequestClose={onRequestClose}>
+        <Modal visible={showOrderModal} transparent animationType="slide" onRequestClose={onRequestClose}>
             <View style={modalStyles.modalOverlay}>
                 <View style={[modalStyles.modalContent]}>
                     <View style={styles.header}>
@@ -66,6 +78,12 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                                     onChangeText={(text) => setQuantity(Number(text))} />
                     </View>
                     <ButtonCustomComponent title={confirmTitle} variant={confirmButtonVariant} onPress={onConfirm} />
+                    {orderResponse && <OrderStatusModalComponent visible={showOrderStatusModal} onRequestClose={() => {
+                        setShowOrderStatusModal(false);
+                        setShowOrderModal(false);
+                        onRequestClose();
+                    }} 
+                    order={orderResponse} />}
                 </View>
             </View>
         </Modal>

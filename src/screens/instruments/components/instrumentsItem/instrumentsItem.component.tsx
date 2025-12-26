@@ -5,7 +5,6 @@ import { InstrumentItemProps } from "./interface/instrumentItem.interface";
 
 export const InstrumentsItemComponent = ({ instrument, onPress }: InstrumentItemProps) => {
     const handlePress = () => {
-        console.log("Instruments Item pressed", instrument);
         onPress(instrument);
     };
     return (

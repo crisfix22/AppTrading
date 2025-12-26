@@ -46,7 +46,6 @@ export const useInstruments = () => {
 
     };
     const handleInstrumentPress = (instrument: Instrument) => {
-        console.log(instrument);
         setOrderModalVisible(true);
         setInstrument(instrument);
     }

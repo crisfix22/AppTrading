@@ -32,7 +32,7 @@ export const ButtonCustomComponent = ({ title, variant = 'primary', size = 'md',
       ) : (
         <>
           {leftIcon}
-          <TextCustomComponent text={title} fontSize="md" color={getColorByVariant(variant)} />
+          <TextCustomComponent text={title} fontSize="md" fontWeight="bold" color={getColorByVariant(variant)} />
           {rightIcon}
         </>
       )}

@@ -1,5 +1,7 @@
-import { OrderModalValue, OrderTypeValue } from "../interface/orderModal.interface";
+import { CreateOrderRequest, OrderModalValue, OrderTypeValue } from "../interface/orderModal.interface";
 import { ButtonGroupButton } from "../../../../../global/components/ButtonGroup/interface/buttonGroup.interface";
+import { createOrder } from "../../../services/orderService";
+import { Instrument } from "../../../services/interface/instruments.interface";
 
 export const useOrderModal = () => {
    
@@ -7,8 +9,15 @@ export const useOrderModal = () => {
     /**
      * On confirm
      */
-    const onHandleConfirm = (selectedValue: OrderModalValue, selectedOrderType: OrderTypeValue, limitPrice: number) => {
-        console.log(selectedValue, selectedOrderType, limitPrice);
+    const onHandleConfirm = async ( request: CreateOrderRequest ) => {
+        const response = await createOrder({
+            instrument_id: request.data.id.toString(),
+            type: request.selectedOrderType === 'market' ? 'MARKET' : 'LIMIT',
+            price: request.limitPrice,
+            quantity: request.quantity,
+            side: request.selectedValue === 'buy' ? 'BUY' : 'SELL',
+        });
+        return response;
     }
     /**
      * Get header buttons

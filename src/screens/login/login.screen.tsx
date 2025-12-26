@@ -20,8 +20,6 @@ export const LoginScreen = () => {
   };
 
   const handleLogin = () => {
-    console.log("email", email);
-    console.log("password", password);
     if (validateEmailAndPassword(email, password)) {
       navigation.navigate("Home");
     } else {
