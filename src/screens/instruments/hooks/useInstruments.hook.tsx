@@ -44,8 +44,8 @@ export const useInstruments = () => {
      * @returns The instruments
      */
     const handleSearchInstruments = async(search: string): Promise<void> => {
-        setScreenViewType('loading');
         if (search.length > 2) {
+          setScreenViewType('loading');
           const response = await searchInstruments(search.toUpperCase());
             if (response.status === 'success') {
                 setError(undefined);
@@ -58,7 +58,8 @@ export const useInstruments = () => {
         } else if (search.length === 0) {
             setError(undefined);
             setInstruments(originalInstruments);
-            setScreenViewType('empty');
+            setInstrumentsContext(originalInstruments);
+            setScreenViewType(originalInstruments.length > 0 ? 'success' : 'empty');
         }
 
     };
