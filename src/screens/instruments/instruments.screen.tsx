@@ -1,44 +1,70 @@
-import { ActivityIndicator, FlatList, View } from 'react-native';
-import { TextCustomComponent } from "../../global/components/TextCustom/textCustom.component"
-import { ContainerComponent } from '../../global/components/Container/container.component';
+import { ActivityIndicator, FlatList, View, TextInput } from 'react-native';
 import { useInstruments } from './hooks/useInstruments.hook';
 import { useEffect } from 'react';
 import { Colors } from '../../global/styles/color.styles';
-import { InstrumentsItemComponent } from './components/instrumentsItem/instrumentsItem.component';
+import { InstrumentsItem } from './components/instrumentsItem/instrumentsItem.component';
 import { styles } from './instruments.styles';
-import { InputCustomComponent } from '../../global/components/InputCustom/inputCustom.component';
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { OrderModalComponent } from './components/orderModal/orderModal.component';
+import { TextCustomComponent } from '../../global/components/TextCustom/textCustom.component';
+import { ContainerComponent } from '../../global/components/Container/container.component';
 
 export const InstrumentsScreen = () => {
-    const { instruments, loading, error, loadInstruments, handleSearchInstruments, 
+    const { instruments, loading, loadInstruments, handleSearchInstruments, 
         handleInstrumentPress, orderModalVisible, setOrderModalVisible, instrument} = useInstruments();
 
     useEffect(() => {
         loadInstruments();
     }, []);
+
     return (
-        <ContainerComponent addSafeAreaInsets={true}>
-            {loading && <ActivityIndicator size="large" color={Colors.primary} />}
-            <TextCustomComponent text="Instruments" fontSize="3xl" color="primary" fontWeight="bold" />
-            <InputCustomComponent
-                placeholder="Buscar ticker"
-                rightIcon={<Ionicons name="search" size={24} color={Colors.primary} />}
-                onChangeText={(text) => handleSearchInstruments(text)}
-            />
-            <View style={styles.separator}/>
-            <FlatList 
-            data={instruments} 
-            renderItem={({ item }) => <InstrumentsItemComponent instrument={item} onPress={handleInstrumentPress} />}
-            keyExtractor={(item) => `${item.id}-${item.name}`}
-            ItemSeparatorComponent={() => <View style={styles.separator} />}
-            ListEmptyComponent={<TextCustomComponent text="No hay instrumentos" fontSize="md" color="secondary" fontWeight="regular" />}
-            ListFooterComponentStyle={{ marginTop: 20 }}
-            />
-            <TextCustomComponent text={error || ''} fontSize="md" color="danger" fontWeight="regular" />
-            {instrument && (
-                <OrderModalComponent visible={orderModalVisible} onRequestClose={() => setOrderModalVisible(false)} data={instrument } />
+        <ContainerComponent>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <View style={styles.headerTop}>
+                    <TextCustomComponent text="Mercado" fontSize="4xl" color="primary" fontWeight="800" />
+                </View>                
+                <View style={styles.searchContainer}>
+                    <Ionicons name="search" size={18} color={Colors.muted} style={styles.searchIcon} />
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Buscar ticker..."
+                        placeholderTextColor={Colors.muted}
+                        onChangeText={(text) => handleSearchInstruments(text)}
+                    />
+                </View>
+            </View>
+
+            {loading && (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={Colors.primary} />
+                </View>
             )}
+            <FlatList 
+                    data={instruments} 
+                    contentContainerStyle={styles.listContainer}
+                    renderItem={({ item }) => (
+                        <InstrumentsItem instrument={item} onPress={handleInstrumentPress} />
+                    )}
+                    keyExtractor={(item) => `${item.id}-${item.name}`}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    ListEmptyComponent={
+                        !loading ? (
+                            <View style={styles.emptyContainer}>
+                                <TextCustomComponent text="No hay instrumentos" fontSize="sm" color="secondary" />
+                            </View>
+                        ) : null
+                    }
+                    showsVerticalScrollIndicator={false}
+                />
+            {instrument && (
+                <OrderModalComponent 
+                    visible={orderModalVisible} 
+                    onRequestClose={() => setOrderModalVisible(false)} 
+                    data={instrument} 
+                />
+            )}
+        </View>
         </ContainerComponent>
-    )
-}
+    );
+};

@@ -33,7 +33,7 @@ export const useInstruments = () => {
     const handleSearchInstruments = async(search: string): Promise<void> => {
         setLoading(true);
         if (search.length > 2) {
-          const response = await searchInstruments(search);
+          const response = await searchInstruments(search.toUpperCase());
             if (response.status === 'success') {
                 setInstruments(response.data);
             } else {

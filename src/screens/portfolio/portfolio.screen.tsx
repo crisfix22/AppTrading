@@ -9,7 +9,7 @@ import { ContainerComponent } from "../../global/components/Container/container.
 import { PortfolioHeaderComponent } from "./components/portfolioHeader/portfolioHeader.component";
 
 export const PortfolioScreen = () => {
-    const { portfolio, loading, error, loadPortfolio, summary } = usePortfolio();
+    const { portfolio, loading, loadPortfolio, summary } = usePortfolio();
 
     useEffect(() => {
         loadPortfolio();

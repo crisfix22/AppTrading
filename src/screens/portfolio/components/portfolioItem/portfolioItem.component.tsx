@@ -3,12 +3,18 @@ import { PortfolioItemProps } from "./interface/portfolioItem.interface";
 import { TextCustomComponent } from "../../../../global/components/TextCustom/textCustom.component";
 import { CardComponent } from "../../../../global/components/Card/card.component";
 import { styles } from "./portfolioItem.styles";
+import { isPositive } from "../../../../global/utils/utils";
+import { useEffect, useState } from "react";
 
 export const PortfolioItem = ({ item }: PortfolioItemProps) => {
-    const marketValue = item.quantity * item.lastPrice;
-    const gain = (item.lastPrice - item.avgCostPrice) * item.quantity;
-    const gainPercentage = ((item.lastPrice - item.avgCostPrice) / item.avgCostPrice) * 100;
-    const isPositive = gain >= 0;
+    const [marketValue, setMarketValue] = useState(0);
+    const [gain, setGain] = useState(0);
+    const [gainPercentage, setGainPercentage] = useState(0);
+    useEffect(() => {
+        setMarketValue(item.quantity * item.lastPrice);
+        setGain((item.lastPrice - item.avgCostPrice) * item.quantity);
+        setGainPercentage(((item.lastPrice - item.avgCostPrice) / item.avgCostPrice) * 100);
+    }, [item]);
 
     return (
         <CardComponent disabled={true}>
@@ -67,9 +73,9 @@ export const PortfolioItem = ({ item }: PortfolioItemProps) => {
                         fontWeight="700" 
                     />
                     <TextCustomComponent 
-                        text={`${isPositive ? '+' : ''}$${gain.toLocaleString()} (${gainPercentage.toFixed(2)}%)`} 
+                        text={`${isPositive(gain) ? '+' : ''}$${gain.toLocaleString()} (${gainPercentage.toFixed(2)}%)`} 
                         fontSize="sm" 
-                        color={isPositive ? 'success' : 'danger'} 
+                        color={isPositive(gain) ? 'success' : 'danger'} 
                         fontWeight="900" 
                     />
                 </View>
