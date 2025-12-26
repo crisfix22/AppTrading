@@ -1,22 +1,60 @@
+import { useEffect } from "react";
+import { ActivityIndicator, FlatList, View } from "react-native";
+import { usePortfolio } from "./hooks/usePortfolio.hooks";
+import { PortfolioItem } from "./components/portfolioItem/portfolioItem.component";
+import { styles } from "./portfolio.styles";
+import { Colors } from "../../global/styles/color.styles";
 import { TextCustomComponent } from "../../global/components/TextCustom/textCustom.component";
 import { ContainerComponent } from "../../global/components/Container/container.component";
-import { usePortfolio } from "./hooks/usePortfolio.hooks";
-import { useEffect } from "react";
-import { Colors } from "../../global/styles/color.styles";
-import { ActivityIndicator, FlatList } from "react-native";
+import { PortfolioHeaderComponent } from "./components/portfolioHeader/portfolioHeader.component";
 
 export const PortfolioScreen = () => {
-    const { portfolio, loading, error, loadPortfolio } = usePortfolio();
+    const { portfolio, loading, error, loadPortfolio, summary } = usePortfolio();
+
     useEffect(() => {
         loadPortfolio();
     }, []);
+
+
     return (
-        <ContainerComponent addSafeAreaInsets={true}>
-            {loading && <ActivityIndicator size="large" color={Colors.primary} />}
-            <TextCustomComponent text="Portfolio" fontSize="3xl" color="primary" fontWeight="bold" />
-            <FlatList keyExtractor={(item) => `${item.instrumentId}-${Math.random().toString()}`} 
-            data={portfolio} renderItem={({ item }) => <TextCustomComponent text={item.ticker} fontSize="md" color="secondary" fontWeight="regular" />} />
-            <TextCustomComponent text={error || ''} fontSize="md" color="danger" fontWeight="regular" />
+        <ContainerComponent>    
+            <View style={styles.container}>
+             {loading && (
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator size="large" color={Colors.primary} />
+                    </View>
+                )}
+                <PortfolioHeaderComponent summary={summary} />
+
+                <View style={styles.mainContent}>
+                    <TextCustomComponent 
+                        text="TUS ACTIVOS" 
+                        fontSize="xs" 
+                        color="muted" 
+                        fontWeight="700" 
+                        style={styles.sectionTitle}
+                    />
+                    
+                    <FlatList
+                        data={portfolio}
+                        keyExtractor={(item) => `${Math.random()}-${item.ticker}`}
+                        renderItem={({ item }) => <PortfolioItem item={item} />}
+                        ListEmptyComponent={
+                            !loading ? (
+                                <View style={styles.emptyContainer}>
+                                    <TextCustomComponent 
+                                        text="No tienes activos en tu portafolio" 
+                                        fontSize="sm" 
+                                        color="secondary" 
+                                    />
+                                </View>
+                            ) : null
+                        }
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: 100 }}
+                    />
+                </View>
+            </View>
         </ContainerComponent>
-    )
-}
+    );
+};

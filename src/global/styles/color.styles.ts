@@ -1,4 +1,4 @@
-export type ColorType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'white' | 'muted' | 'ghost' | 'outline' | 'inputBackground' | 'modalOverlay' | 'groupButtonBackground';
+export type ColorType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'white' | 'muted' | 'ghost' | 'outline' | 'inputBackground' | 'modalOverlay' | 'groupButtonBackground' | 'background' | 'border';
 export type ColorValues = {
     [key in ColorType]: string;
 }
@@ -16,5 +16,6 @@ export const Colors: ColorValues = {
     inputBackground: '#f3f4f6',
     modalOverlay: 'rgba(0, 0, 0, 0.6)',
     groupButtonBackground: '#f3f4f6',
-    
+    background: '#f9fafb',
+    border: '#f3f4f6',
 };

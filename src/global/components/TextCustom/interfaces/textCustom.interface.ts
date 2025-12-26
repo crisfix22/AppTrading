@@ -1,7 +1,7 @@
 import { StyleProp, TextProps, TextStyle } from "react-native";
 import { ColorType } from "../../../styles/color.styles";
 
-export type FontSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+export type FontSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 export type FontSize = {
     [key in FontSizeType]: number;
 }
@@ -18,7 +18,8 @@ export const FontSizes: FontSize = {
     'xl': 20,
     '2xl': 22,
     '3xl': 24,
-    '4xl': 26,
+    '4xl': 28,
+    '5xl': 36,
 };
 
 export interface TextCustomProps {
