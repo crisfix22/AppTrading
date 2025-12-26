@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../../../global/styles/color.styles";
+const MARGIN_DEFAULT = 24;
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -11,22 +12,25 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 24,
+        marginBottom: MARGIN_DEFAULT,
     },
     separator: {
-        marginBottom: 24,
+        marginBottom: MARGIN_DEFAULT,
     },
     orderType: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: Colors.groupButtonBackground,
-        marginRight:24,
+        marginRight: MARGIN_DEFAULT,
         borderRadius: 8,
         height: 45,
         width: '100%',
-        marginVertical: 24,
+        marginVertical: MARGIN_DEFAULT,
         paddingHorizontal: 10,
     },
+    limitPrice: {
+        marginBottom: MARGIN_DEFAULT,
+    }
   
 });
