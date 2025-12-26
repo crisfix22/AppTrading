@@ -1,97 +1,93 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# AppTrading
 
-# Getting Started
+Aplicación móvil de trading desarrollada con React Native para Android. Permite visualizar instrumentos financieros, gestionar portafolios y realizar operaciones de compra/venta.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Capturas de Pantalla
 
-## Step 1: Start Metro
+| Login | Instrumentos | Portfolio | Perfil |
+|-------|--------------|-----------|--------|
+| ![Login](docs/screenshots/login.png) | ![Instrumentos](docs/screenshots/instruments.png) | ![Portfolio](docs/screenshots/portfolio.png) | ![Perfil](docs/screenshots/profile.png) |
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Requisitos Previos
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **Node.js** >= 20
+- **Yarn** (gestor de paquetes)
+- **Android Studio** con Android SDK
+- **JDK** 17+
 
-```sh
-# Using npm
-npm start
+## Instalación
 
-# OR using Yarn
+1. Clonar el repositorio:
+```bash
+git clone <repo-url>
+cd AppTrading
+```
+
+2. Instalar dependencias:
+```bash
+yarn install
+```
+
+## Ejecutar el Proyecto
+
+1. Iniciar el servidor Metro:
+```bash
 yarn start
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
+2. En otra terminal, compilar y ejecutar en Android:
+```bash
 yarn android
 ```
 
-### iOS
+> **Nota:** Asegúrate de tener un emulador Android corriendo o un dispositivo conectado.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## Estructura de Carpetas
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```
+src/
+├── global/                    # Recursos compartidos en toda la app
+│   ├── api/                   # Configuración de axios y tipos de respuesta
+│   ├── components/            # Componentes reutilizables (Button, Input, Card, etc.)
+│   ├── interface/             # Interfaces TypeScript globales
+│   ├── navigation/            # Navegación principal de la app
+│   ├── state/                 # Context y estado global (ej: UserContext)
+│   ├── styles/                # Estilos, colores y hooks de estilos
+│   └── utils/                 # Funciones utilitarias generales
+│
+└── screens/                   # Pantallas de la aplicación
+    └── [screen]/              # Cada pantalla es autocontenida
+        ├── components/        # Componentes específicos de la pantalla
+        ├── hooks/             # Custom hooks de la pantalla
+        ├── services/          # Llamadas a API y lógica de servicios
+        ├── state/             # Estado local (Context específico)
+        ├── [screen].screen.tsx
+        └── [screen].styles.ts
 ```
 
-Then, and every time you update your native dependencies, run:
+## Ventajas de la Estructura
 
-```sh
-bundle exec pod install
-```
+| Ventaja | Descripción |
+|---------|-------------|
+| **Modularidad** | Cada pantalla es autocontenida con sus propios componentes, hooks, servicios y estado |
+| **Escalabilidad** | Fácil agregar nuevas pantallas sin afectar las existentes |
+| **Reutilización** | Componentes globales compartidos evitan duplicación de código |
+| **Mantenibilidad** | Código organizado facilita encontrar y modificar funcionalidades |
+| **Separación de responsabilidades** | Lógica de negocio (hooks/services) separada de la UI (components) |
+| **Tipado consistente** | Interfaces en carpetas dedicadas para cada módulo |
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## Scripts Disponibles
 
-```sh
-# Using npm
-npm run ios
+| Comando | Descripción |
+|---------|-------------|
+| `yarn start` | Inicia el servidor Metro (bundler) |
+| `yarn android` | Compila y ejecuta la app en Android |
+| `yarn lint` | Ejecuta ESLint para verificar el código |
 
-# OR using Yarn
-yarn ios
-```
+## Tecnologías Principales
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- **React Native** 0.83
+- **TypeScript**
+- **React Navigation** (navegación)
+- **Axios** (peticiones HTTP)
+- **Ionicons** (iconos)
