@@ -3,37 +3,39 @@ import { Instrument } from "../services/interface/instruments.interface";
 import { getInstruments, searchInstruments } from "../services/instruments.service";
 import { useState } from "react";
 import { useInstrumentContext } from "../state/instrumentContext.context";
+import { ScreenView, ScreenViewType } from "../../../global/interface/global.interface";
 
 export const useInstruments = () => {
     const { setInstruments: setInstrumentsContext, instruments: instrumentsContext } = useInstrumentContext();
     const [instruments, setInstruments] = useState<Array<Instrument>>([]);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [originalInstruments , setOriginalInstruments] = useState<Array<Instrument>>([]);
     const [orderModalVisible, setOrderModalVisible] = useState(false);
     const [instrument, setInstrument] = useState<Instrument>();
+    const [screenViewType, setScreenViewType] = useState<ScreenViewType>('success');
     /**
      * Load the instruments
      * @returns The instruments
      */
     const loadInstruments = async(refresh = false): Promise<void> => {
-        setLoading(true);
+        setScreenViewType('loading');
         if (instrumentsContext.length > 0 && !refresh) {
             setError(undefined);
             setInstruments(instrumentsContext);
             setOriginalInstruments(instrumentsContext);
-            setLoading(false);
+            setScreenViewType(instrumentsContext.length > 0 ? 'success' : 'empty');
             return;
         }
         const response = await getInstruments();
-        setLoading(false);
         if (response.status === 'success') {
             setError(undefined);
             setInstruments(response.data);
             setOriginalInstruments(response.data);
             setInstrumentsContext(response.data);
+            setScreenViewType(response.data.length > 0 ? 'success' : 'empty');
         } else {
             setError(response.message || 'Error al cargar los instrumentos');
+            setScreenViewType('error');
         }
     };
     /**
@@ -42,20 +44,22 @@ export const useInstruments = () => {
      * @returns The instruments
      */
     const handleSearchInstruments = async(search: string): Promise<void> => {
-        setLoading(true);
+        setScreenViewType('loading');
         if (search.length > 2) {
           const response = await searchInstruments(search.toUpperCase());
             if (response.status === 'success') {
                 setError(undefined);
                 setInstruments(response.data);
+                setScreenViewType('success');
             } else {
                 setError(response.message || 'Error al buscar los instrumentos');
+                setScreenViewType('error');
             }
         } else if (search.length === 0) {
             setError(undefined);
             setInstruments(originalInstruments);
+            setScreenViewType('empty');
         }
-        setLoading(false);
 
     };
     const handleInstrumentPress = (instrument: Instrument) => {
@@ -69,8 +73,8 @@ export const useInstruments = () => {
     return {
         loadInstruments,
         instruments,
-        loading,
         error,
+        screenViewType,
         handleSearchInstruments,
         handleInstrumentPress,
         orderModalVisible,

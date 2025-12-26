@@ -8,12 +8,12 @@ import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { OrderModalComponent } from './components/orderModal/orderModal.component';
 import { TextCustomComponent } from '../../global/components/TextCustom/textCustom.component';
 import { ContainerComponent } from '../../global/components/Container/container.component';
-import { InstrumentsSkeleton } from './components/instrumentsSkeleton/instrumentsSkeleton.component';
-import { ErrorViewComponent } from '../../global/components/ErrorView/errorView.component';
+import { useInstrumentsScreenView } from './hooks/useInstrumentsScreenView.hook';
 
 export const InstrumentsScreen = () => {
-    const { instruments, loading, error, loadInstruments, handleSearchInstruments, 
-        handleInstrumentPress, orderModalVisible, setOrderModalVisible, instrument, refreshInstruments} = useInstruments();
+    const { instruments, error, loadInstruments, handleSearchInstruments, 
+        handleInstrumentPress, orderModalVisible, setOrderModalVisible, instrument, refreshInstruments, screenViewType} = useInstruments();
+    const { screenView } = useInstrumentsScreenView(screenViewType, error ?? 'Error al cargar los instrumentos', refreshInstruments, instruments, handleInstrumentPress);
 
     useEffect(() => {
         loadInstruments();
@@ -37,39 +37,7 @@ export const InstrumentsScreen = () => {
                 </View>
             </View>
 
-            {error ? (
-                <ErrorViewComponent message={error} onRetry={refreshInstruments} />
-            ) : loading && instruments.length === 0 ? (
-                <InstrumentsSkeleton />
-            ) : (
-                <FlatList 
-                    data={instruments} 
-                    contentContainerStyle={styles.listContainer}
-                    refreshing={loading}
-                    onRefresh={refreshInstruments}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={loading}
-                            onRefresh={refreshInstruments}
-                            colors={[Colors.primary]}
-                            tintColor={Colors.primary}
-                        />
-                    }
-                    renderItem={({ item }) => (
-                        <InstrumentsItem instrument={item} onPress={handleInstrumentPress} />
-                    )}
-                    keyExtractor={(item) => `${item.id}-${item.name}`}
-                    ItemSeparatorComponent={() => <View style={styles.separator} />}
-                    ListEmptyComponent={
-                        !loading ? (
-                            <View style={styles.emptyContainer}>
-                                <TextCustomComponent text="No hay instrumentos" fontSize="sm" color="secondary" />
-                            </View>
-                        ) : null
-                    }
-                    showsVerticalScrollIndicator={false}
-                />
-            )}
+            {screenView[screenViewType]?.()}
             {instrument && (
                 <OrderModalComponent 
                     visible={orderModalVisible} 
