@@ -25,8 +25,8 @@ export const useOrderModal = () => {
      */
     const getHeaderButtons = (): ButtonGroupButton<OrderModalValue>[] => {
         return [
-            {value: 'buy', buttonProps: {title: 'Compra', variant: 'success', size: 'sm'}, style: {flex: 1}},
-            {value: 'sell', buttonProps: {title: 'Venta', variant: 'danger', size: 'sm'}, style: {flex: 1}},
+            {value: 'buy', buttonProps: {title: 'COMPRA', variant: 'success', size: 'sm'}, style: {flex: 1}},
+            {value: 'sell', buttonProps: {title: 'VENTA', variant: 'danger', size: 'sm'}, style: {flex: 1}},
         ]
     }
     /**
@@ -35,8 +35,8 @@ export const useOrderModal = () => {
      */
     const getOrderTypeButtons = (): ButtonGroupButton<OrderTypeValue>[] => {
         return [
-            {value: 'market', buttonProps: {title: 'Market', variant: 'primary', size: 'xs'}},
-            {value: 'limit', buttonProps: {title: 'Limit', variant: 'primary', size: 'xs'}},
+            {value: 'market', buttonProps: {title: 'MARKET', variant: 'primary', size: 'xs'}, style: {borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8}},
+            {value: 'limit', buttonProps: {title: 'LIMIT', variant: 'primary', size: 'xs'}, style: {borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8}},
         ]
     }
   

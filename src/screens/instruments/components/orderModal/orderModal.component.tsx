@@ -1,4 +1,4 @@
-import {Modal, View} from 'react-native'
+import {Modal, View, TouchableOpacity, Text} from 'react-native'
 import { OrderModalProps, OrderModalValue, OrderTypeValue } from './interface/orderModal.interface'
 import { styles } from './orderModal.styles'
 import { TextCustomComponent } from '../../../../global/components/TextCustom/textCustom.component'
@@ -6,7 +6,6 @@ import { ButtonCustomComponent } from '../../../../global/components/ButtonCusto
 import { ButtonGroupComponent } from '../../../../global/components/ButtonGroup/buttonGroup.component'
 import { modalStyles } from '../../../../global/styles/modal.styles'
 import { useOrderModal } from './hooks/useOrderModal.hook'
-import { SeparatorComponent } from '../../../../global/components/Separator/separator.component'
 import { InputCustomComponent } from '../../../../global/components/InputCustom/inputCustom.component'
 import { useEffect, useState } from 'react'
 import { ButtonVariantType } from '../../../../global/components/ButtonCustom/interface/buttomCustom.interface'
@@ -47,43 +46,78 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
         <Modal visible={showOrderModal} transparent animationType="slide" onRequestClose={onRequestClose}>
             <View style={modalStyles.modalOverlay}>
                 <View style={[modalStyles.modalContent]}>
+                    {/* Header */}
                     <View style={styles.header}>
                         <View>
                             <TextCustomComponent text={data.ticker} fontSize="lg" color="primary" fontWeight="bold" />
-                            <TextCustomComponent text={data.name} fontSize="md" color="secondary" fontWeight="regular" />
-                            <TextCustomComponent text={`Last price: $${data.lastPrice.toString()}`} fontSize="md" color="secondary" fontWeight="regular" />
+                            <TextCustomComponent text={`Precio Actual: $${data.lastPrice.toLocaleString()}`} fontSize="md" color="secondary" fontWeight="regular" />
                         </View>
-                        <ButtonCustomComponent title="X" variant="outline"  onPress={onRequestClose} />
+                        <TouchableOpacity style={styles.closeButton} onPress={onRequestClose}>
+                            <Text style={{fontSize: 16, fontWeight: '700', color: '#000'}}>✕</Text>
+                        </TouchableOpacity>
                     </View>
-                    <SeparatorComponent style={styles.separator} />
-                    <ButtonGroupComponent  buttons={getHeaderButtons()} onValueChange={onValueChange} selectedValue={selectedValue} />
+
+                    {/* Buy/Sell Selector */}
+                    <ButtonGroupComponent 
+                        buttons={getHeaderButtons()} 
+                        onValueChange={onValueChange} 
+                        selectedValue={selectedValue}
+                        containerStyle={styles.sideSelector}
+                    />
+
+                    {/* Order Type */}
                     <View style={styles.orderType}>
-                        <TextCustomComponent text="Tipo de orden" fontSize="sm" color="secondary" fontWeight="bold" />
-                        <ButtonGroupComponent   buttons={getOrderTypeButtons()} onValueChange={onOrderTypeChange} selectedValue={selectedOrderType} />
+                        <TextCustomComponent text="Tipo de Orden" fontSize="sm" color="secondary" fontWeight="bold" />
+                        <ButtonGroupComponent 
+                            buttons={getOrderTypeButtons()} 
+                            onValueChange={onOrderTypeChange} 
+                            selectedValue={selectedOrderType}
+                            containerStyle={{backgroundColor: 'transparent', gap: 8}}
+                        />
                     </View>
-                    {
-                        selectedOrderType === 'limit' && (
-                            <View style={styles.limitPrice}>
-                                    <TextCustomComponent text="Precio Limite" fontSize="sm" color="secondary" fontWeight="bold" />
-                                    <InputCustomComponent placeholder="Precio" 
-                                    nativeTextInputProps={{ keyboardType: 'numeric' }} 
-                                    onChangeText={(text) => setLimitPrice(Number(text))} />
-                            </View>
-                        )
-                    }
-                    <View style={styles.limitPrice}>
-                                    <TextCustomComponent text="Cantidad de acciones" fontSize="sm" color="secondary" fontWeight="bold" />
-                                    <InputCustomComponent placeholder="Acciones" 
-                                    nativeTextInputProps={{ keyboardType: 'numeric' }} 
-                                    onChangeText={(text) => setQuantity(Number(text))} />
+
+                    {/* Limit Price Input */}
+                    {selectedOrderType === 'limit' && (
+                        <View style={styles.limitPrice}>
+                            <TextCustomComponent text="PRECIO LÍMITE" fontSize="sm" color="muted" fontWeight="bold" />
+                            <InputCustomComponent 
+                                placeholder="0.00" 
+                                nativeTextInputProps={{ keyboardType: 'numeric' }} 
+                                onChangeText={(text) => setLimitPrice(Number(text))} 
+                            />
+                        </View>
+                    )}
+
+                    {/* Quantity Input */}
+                    <View style={styles.quantityContainer}>
+                        <TextCustomComponent text="CANTIDAD DE ACCIONES" fontSize="sm" color="muted" fontWeight="bold" />
+                        <InputCustomComponent 
+                            placeholder="0" 
+                            nativeTextInputProps={{ keyboardType: 'numeric' }} 
+                            onChangeText={(text) => setQuantity(Number(text))} 
+                        />
                     </View>
-                    <ButtonCustomComponent title={confirmTitle} variant={confirmButtonVariant} onPress={onConfirm} />
-                    {orderResponse && <OrderStatusModalComponent visible={showOrderStatusModal} onRequestClose={() => {
-                        setShowOrderStatusModal(false);
-                        setShowOrderModal(false);
-                        onRequestClose();
-                    }} 
-                    order={orderResponse} />}
+
+                    {/* Submit Button */}
+                    <ButtonCustomComponent 
+                        title={confirmTitle} 
+                        variant={confirmButtonVariant} 
+                        onPress={onConfirm}
+                        fullWidth
+                    />
+
+                    {/* Order Status Modal */}
+                    {orderResponse && (
+                        <OrderStatusModalComponent 
+                            visible={showOrderStatusModal} 
+                            onRequestClose={() => {
+                                setShowOrderStatusModal(false);
+                                setShowOrderModal(false);
+                                onRequestClose();
+                            }} 
+                            order={orderResponse} 
+                        />
+                    )}
                 </View>
             </View>
         </Modal>
