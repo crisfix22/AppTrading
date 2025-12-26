@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { ActivityIndicator, FlatList, RefreshControl, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import { usePortfolio } from "./hooks/usePortfolio.hooks";
 import { PortfolioItem } from "./components/portfolioItem/portfolioItem.component";
+import { PortfolioSkeleton } from "./components/portfolioSkeleton/portfolioSkeleton.component";
 import { styles } from "./portfolio.styles";
 import { Colors } from "../../global/styles/color.styles";
 import { TextCustomComponent } from "../../global/components/TextCustom/textCustom.component";
@@ -19,11 +20,6 @@ export const PortfolioScreen = () => {
     return (
         <ContainerComponent>    
             <View style={styles.container}>
-             {loading && (
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color={Colors.primary} />
-                    </View>
-                )}
                 <PortfolioHeaderComponent summary={summary} />
 
                 <View style={styles.mainContent}>
@@ -35,21 +31,23 @@ export const PortfolioScreen = () => {
                         style={styles.sectionTitle}
                     />
                     
-                    <FlatList
-                        data={portfolio}
-                        refreshing={loading}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={loading}
-                                onRefresh={refreshPortfolio}
-                                colors={[Colors.primary]}
-                                tintColor={Colors.primary}
-                            />
-                        }
-                        keyExtractor={(item) => `${Math.random()}-${item.ticker}`}
-                        renderItem={({ item }) => <PortfolioItem item={item} />}
-                        ListEmptyComponent={
-                            !loading ? (
+                    {loading ? (
+                        <PortfolioSkeleton />
+                    ) : (
+                        <FlatList
+                            data={portfolio}
+                            refreshing={loading}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={loading}
+                                    onRefresh={refreshPortfolio}
+                                    colors={[Colors.primary]}
+                                    tintColor={Colors.primary}
+                                />
+                            }
+                            keyExtractor={(item) => `${Math.random()}-${item.ticker}`}
+                            renderItem={({ item }) => <PortfolioItem item={item} />}
+                            ListEmptyComponent={
                                 <View style={styles.emptyContainer}>
                                     <TextCustomComponent 
                                         text="No tienes activos en tu portafolio" 
@@ -57,11 +55,11 @@ export const PortfolioScreen = () => {
                                         color="secondary" 
                                     />
                                 </View>
-                            ) : null
-                        }
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ paddingBottom: 100 }}
-                    />
+                            }
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{ paddingBottom: 100 }}
+                        />
+                    )}
                 </View>
             </View>
         </ContainerComponent>

@@ -23,7 +23,7 @@ export const InstrumentsScreen = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerTop}>
-                    <TextCustomComponent text="Mercado" fontSize="4xl" color="primary" fontWeight="800" />
+                    <TextCustomComponent text="Instrumentos" fontSize="4xl" color="primary" fontWeight="800" />
                 </View>                
                 <View style={styles.searchContainer}>
                     <Ionicons name="search" size={18} color={Colors.muted} style={styles.searchIcon} />

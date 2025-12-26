@@ -25,12 +25,14 @@ export const HomeTabs = createBottomTabNavigator({
         screen: InstrumentsScreen,
         options: {
           headerShown: false,
+          tabBarLabel: 'Instrumentos',
         },
        },
       Portfolio: {
         screen: PortfolioScreen, 
         options: {
           headerShown: false,
+          tabBarLabel: 'Portafolio',
         },
        },
       
