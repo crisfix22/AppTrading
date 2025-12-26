@@ -6,7 +6,7 @@ import { styles } from "./login.styles";
 import { Colors } from "../../global/styles/color.styles";
 import { useState } from "react";
 import { useLogin } from "./hooks/useLogin.hook";
-import { useNavigation } from "@react-navigation/native";
+import { StackActions, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
 
 export const LoginScreen = () => {
@@ -22,7 +22,7 @@ export const LoginScreen = () => {
   const handleLogin = async () => {
     const isLoggedIn = await login(email, password);
     if (isLoggedIn) {
-      navigation.navigate("Home");
+      navigation.dispatch(StackActions.replace('Home'));
     } else {
       Alert.alert("Error", "Email o contraseña incorrectos");
     } 

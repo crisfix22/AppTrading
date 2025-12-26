@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, View, TextInput, RefreshControl } from 'react-native';
+import { FlatList, View, TextInput, RefreshControl } from 'react-native';
 import { useInstruments } from './hooks/useInstruments.hook';
 import { useEffect } from 'react';
 import { Colors } from '../../global/styles/color.styles';
@@ -8,6 +8,7 @@ import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { OrderModalComponent } from './components/orderModal/orderModal.component';
 import { TextCustomComponent } from '../../global/components/TextCustom/textCustom.component';
 import { ContainerComponent } from '../../global/components/Container/container.component';
+import { InstrumentsSkeleton } from './components/instrumentsSkeleton/instrumentsSkeleton.component';
 
 export const InstrumentsScreen = () => {
     const { instruments, loading, loadInstruments, handleSearchInstruments, 
@@ -35,12 +36,10 @@ export const InstrumentsScreen = () => {
                 </View>
             </View>
 
-            {loading && (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color={Colors.primary} />
-                </View>
-            )}
-            <FlatList 
+            {loading && instruments.length === 0 ? (
+                <InstrumentsSkeleton />
+            ) : (
+                <FlatList 
                     data={instruments} 
                     contentContainerStyle={styles.listContainer}
                     refreshing={loading}
@@ -67,6 +66,7 @@ export const InstrumentsScreen = () => {
                     }
                     showsVerticalScrollIndicator={false}
                 />
+            )}
             {instrument && (
                 <OrderModalComponent 
                     visible={orderModalVisible} 
