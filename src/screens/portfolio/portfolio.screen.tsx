@@ -8,9 +8,10 @@ import { Colors } from "../../global/styles/color.styles";
 import { TextCustomComponent } from "../../global/components/TextCustom/textCustom.component";
 import { ContainerComponent } from "../../global/components/Container/container.component";
 import { PortfolioHeaderComponent } from "./components/portfolioHeader/portfolioHeader.component";
+import { ErrorViewComponent } from "../../global/components/ErrorView/errorView.component";
 
 export const PortfolioScreen = () => {
-    const { portfolio, loading, loadPortfolio, summary, refreshPortfolio } = usePortfolio();
+    const { portfolio, loading, error, loadPortfolio, summary, refreshPortfolio } = usePortfolio();
 
     useEffect(() => {
         loadPortfolio();
@@ -31,7 +32,9 @@ export const PortfolioScreen = () => {
                         style={styles.sectionTitle}
                     />
                     
-                    {loading ? (
+                    {error ? (
+                        <ErrorViewComponent message={error} onRetry={refreshPortfolio} />
+                    ) : loading ? (
                         <PortfolioSkeleton />
                     ) : (
                         <FlatList

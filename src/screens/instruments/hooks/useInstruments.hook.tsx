@@ -19,6 +19,7 @@ export const useInstruments = () => {
     const loadInstruments = async(refresh = false): Promise<void> => {
         setLoading(true);
         if (instrumentsContext.length > 0 && !refresh) {
+            setError(undefined);
             setInstruments(instrumentsContext);
             setOriginalInstruments(instrumentsContext);
             setLoading(false);
@@ -27,6 +28,7 @@ export const useInstruments = () => {
         const response = await getInstruments();
         setLoading(false);
         if (response.status === 'success') {
+            setError(undefined);
             setInstruments(response.data);
             setOriginalInstruments(response.data);
             setInstrumentsContext(response.data);
@@ -44,11 +46,13 @@ export const useInstruments = () => {
         if (search.length > 2) {
           const response = await searchInstruments(search.toUpperCase());
             if (response.status === 'success') {
+                setError(undefined);
                 setInstruments(response.data);
             } else {
                 setError(response.message || 'Error al buscar los instrumentos');
             }
         } else if (search.length === 0) {
+            setError(undefined);
             setInstruments(originalInstruments);
         }
         setLoading(false);

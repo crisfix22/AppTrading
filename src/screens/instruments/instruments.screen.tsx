@@ -9,9 +9,10 @@ import { OrderModalComponent } from './components/orderModal/orderModal.componen
 import { TextCustomComponent } from '../../global/components/TextCustom/textCustom.component';
 import { ContainerComponent } from '../../global/components/Container/container.component';
 import { InstrumentsSkeleton } from './components/instrumentsSkeleton/instrumentsSkeleton.component';
+import { ErrorViewComponent } from '../../global/components/ErrorView/errorView.component';
 
 export const InstrumentsScreen = () => {
-    const { instruments, loading, loadInstruments, handleSearchInstruments, 
+    const { instruments, loading, error, loadInstruments, handleSearchInstruments, 
         handleInstrumentPress, orderModalVisible, setOrderModalVisible, instrument, refreshInstruments} = useInstruments();
 
     useEffect(() => {
@@ -36,7 +37,9 @@ export const InstrumentsScreen = () => {
                 </View>
             </View>
 
-            {loading && instruments.length === 0 ? (
+            {error ? (
+                <ErrorViewComponent message={error} onRetry={refreshInstruments} />
+            ) : loading && instruments.length === 0 ? (
                 <InstrumentsSkeleton />
             ) : (
                 <FlatList 
