@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Portfolio } from "../service/interface/portfolio.interface";
 import { getPortfolio } from "../service/portfolio.service";
 import { PortfolioSummary } from "../components/portfolioHeader/interface/portfolioHeader.interface";
+import { usePortfolioContext } from "../state/portfolioContext.context";
 
 
 
 
 
 export const usePortfolio = () => {
+    const { setPortfolios, portfolios } = usePortfolioContext();
     const [portfolio, setPortfolio] = useState<Array<Portfolio>>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -54,16 +56,27 @@ export const usePortfolio = () => {
      * Load the portfolio
      * @returns The portfolio
      */
-    const loadPortfolio = async () => {
+    const loadPortfolio = async (refresh = false) => {
         setLoading(true);
+        if (portfolios.length > 0 && !refresh) {
+            setPortfolio(portfolios);
+            setSummary(calculateSummary(portfolios));
+            setLoading(false);
+            return;
+        } 
         const response = await getPortfolio();
         if (response.status === 'success') {
             setPortfolio(response.data);
             setSummary(calculateSummary(response.data));
+            setPortfolios(response.data);
         } else {
             setError(response.message || 'Error al cargar el portfolio');
         }
         setLoading(false);
+    };
+
+    const refreshPortfolio = async () => {
+        await loadPortfolio(true);
     };
 
     return {
@@ -72,5 +85,6 @@ export const usePortfolio = () => {
         error,
         loadPortfolio,
         summary,
+        refreshPortfolio,
     };
 };

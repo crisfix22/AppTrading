@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl, View } from "react-native";
 import { usePortfolio } from "./hooks/usePortfolio.hooks";
 import { PortfolioItem } from "./components/portfolioItem/portfolioItem.component";
 import { styles } from "./portfolio.styles";
@@ -9,7 +9,7 @@ import { ContainerComponent } from "../../global/components/Container/container.
 import { PortfolioHeaderComponent } from "./components/portfolioHeader/portfolioHeader.component";
 
 export const PortfolioScreen = () => {
-    const { portfolio, loading, loadPortfolio, summary } = usePortfolio();
+    const { portfolio, loading, loadPortfolio, summary, refreshPortfolio } = usePortfolio();
 
     useEffect(() => {
         loadPortfolio();
@@ -37,6 +37,15 @@ export const PortfolioScreen = () => {
                     
                     <FlatList
                         data={portfolio}
+                        refreshing={loading}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={loading}
+                                onRefresh={refreshPortfolio}
+                                colors={[Colors.primary]}
+                                tintColor={Colors.primary}
+                            />
+                        }
                         keyExtractor={(item) => `${Math.random()}-${item.ticker}`}
                         renderItem={({ item }) => <PortfolioItem item={item} />}
                         ListEmptyComponent={

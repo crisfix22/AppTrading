@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, View, TextInput } from 'react-native';
+import { ActivityIndicator, FlatList, View, TextInput, RefreshControl } from 'react-native';
 import { useInstruments } from './hooks/useInstruments.hook';
 import { useEffect } from 'react';
 import { Colors } from '../../global/styles/color.styles';
@@ -11,7 +11,7 @@ import { ContainerComponent } from '../../global/components/Container/container.
 
 export const InstrumentsScreen = () => {
     const { instruments, loading, loadInstruments, handleSearchInstruments, 
-        handleInstrumentPress, orderModalVisible, setOrderModalVisible, instrument} = useInstruments();
+        handleInstrumentPress, orderModalVisible, setOrderModalVisible, instrument, refreshInstruments} = useInstruments();
 
     useEffect(() => {
         loadInstruments();
@@ -43,6 +43,16 @@ export const InstrumentsScreen = () => {
             <FlatList 
                     data={instruments} 
                     contentContainerStyle={styles.listContainer}
+                    refreshing={loading}
+                    onRefresh={refreshInstruments}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={loading}
+                            onRefresh={refreshInstruments}
+                            colors={[Colors.primary]}
+                            tintColor={Colors.primary}
+                        />
+                    }
                     renderItem={({ item }) => (
                         <InstrumentsItem instrument={item} onPress={handleInstrumentPress} />
                     )}

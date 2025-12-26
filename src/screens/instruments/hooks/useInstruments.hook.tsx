@@ -2,8 +2,10 @@ import { BaseResponse } from "../../../global/api/interface/axios.interface";
 import { Instrument } from "../services/interface/instruments.interface";
 import { getInstruments, searchInstruments } from "../services/instruments.service";
 import { useState } from "react";
+import { useInstrumentContext } from "../state/instrumentContext.context";
 
 export const useInstruments = () => {
+    const { setInstruments: setInstrumentsContext, instruments: instrumentsContext } = useInstrumentContext();
     const [instruments, setInstruments] = useState<Array<Instrument>>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
@@ -14,13 +16,20 @@ export const useInstruments = () => {
      * Load the instruments
      * @returns The instruments
      */
-    const loadInstruments = async(): Promise<void> => {
+    const loadInstruments = async(refresh = false): Promise<void> => {
         setLoading(true);
+        if (instrumentsContext.length > 0 && !refresh) {
+            setInstruments(instrumentsContext);
+            setOriginalInstruments(instrumentsContext);
+            setLoading(false);
+            return;
+        }
         const response = await getInstruments();
         setLoading(false);
         if (response.status === 'success') {
             setInstruments(response.data);
             setOriginalInstruments(response.data);
+            setInstrumentsContext(response.data);
         } else {
             setError(response.message || 'Error al cargar los instrumentos');
         }
@@ -49,6 +58,9 @@ export const useInstruments = () => {
         setOrderModalVisible(true);
         setInstrument(instrument);
     }
+    const refreshInstruments = async () => {
+        await loadInstruments(true);
+    };
 
     return {
         loadInstruments,
@@ -60,5 +72,6 @@ export const useInstruments = () => {
         orderModalVisible,
         setOrderModalVisible,
         instrument,
+        refreshInstruments,
     };
 };
