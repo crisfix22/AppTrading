@@ -1,11 +1,12 @@
 import { TouchableOpacity } from "react-native";
 import { styles } from "./instrumentsItem.styles";
 import { TextCustomComponent } from "../../../../global/components/TextCustom/textCustom.component";
-import { Instrument } from "../../services/interface/instruments.interface";
+import { InstrumentItemProps } from "./interface/instrumentItem.interface";
 
-export const InstrumentsItemComponent = ({ instrument }: { instrument: Instrument }) => {
+export const InstrumentsItemComponent = ({ instrument, onPress }: InstrumentItemProps) => {
     const handlePress = () => {
         console.log("Instruments Item pressed", instrument);
+        onPress(instrument);
     };
     return (
         <TouchableOpacity style={styles.container} onPress={handlePress}>

@@ -8,9 +8,11 @@ import { InstrumentsItemComponent } from './components/instrumentsItem/instrumen
 import { styles } from './instruments.styles';
 import { InputCustomComponent } from '../../global/components/InputCustom/inputCustom.component';
 import { Ionicons } from '@react-native-vector-icons/ionicons';
+import { OrderModalComponent } from './components/orderModal/orderModal.component';
 
 export const InstrumentsScreen = () => {
-    const { instruments, loading, error, loadInstruments, handleSearchInstruments} = useInstruments();
+    const { instruments, loading, error, loadInstruments, handleSearchInstruments, 
+        handleInstrumentPress, orderModalVisible, setOrderModalVisible, instrument} = useInstruments();
 
     useEffect(() => {
         loadInstruments();
@@ -27,13 +29,16 @@ export const InstrumentsScreen = () => {
             <View style={styles.separator}/>
             <FlatList 
             data={instruments} 
-            renderItem={({ item }) => <InstrumentsItemComponent instrument={item} />}
+            renderItem={({ item }) => <InstrumentsItemComponent instrument={item} onPress={handleInstrumentPress} />}
             keyExtractor={(item) => `${item.id}-${item.name}`}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             ListEmptyComponent={<TextCustomComponent text="No hay instrumentos" fontSize="md" color="secondary" fontWeight="regular" />}
             ListFooterComponentStyle={{ marginTop: 20 }}
             />
             <TextCustomComponent text={error || ''} fontSize="md" color="danger" fontWeight="regular" />
+            {instrument && (
+                <OrderModalComponent visible={orderModalVisible} onRequestClose={() => setOrderModalVisible(false)} data={instrument } />
+            )}
         </ContainerComponent>
     )
 }

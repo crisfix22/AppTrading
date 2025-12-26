@@ -2,8 +2,8 @@ import { ButtonProps, StyleProp, TouchableOpacityProps, ViewStyle } from "react-
 import { styles } from "../buttonCustom.styles";
 import { ColorType } from "../../../styles/color.styles";
 
-export type ButtonVariantType = 'primary' | 'secondary' | 'success' | 'danger' | 'outline' | 'ghost';
-export type ButtonSizeType = 'sm' | 'md' | 'lg';
+export type ButtonVariantType = 'primary' | 'secondary' | 'success' | 'danger' | 'outline' | 'ghost' ;
+export type ButtonSizeType = 'xs' | 'sm' | 'md' | 'lg';
 export type ColorByVariantType = {
     [key in ButtonVariantType]: ColorType;
 }

@@ -65,6 +65,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 12,
   },
+  xs: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+  },
   md: {
     paddingVertical: 14,
     paddingHorizontal: 20,

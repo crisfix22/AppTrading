@@ -8,6 +8,8 @@ export const useInstruments = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [originalInstruments , setOriginalInstruments] = useState<Array<Instrument>>([]);
+    const [orderModalVisible, setOrderModalVisible] = useState(false);
+    const [instrument, setInstrument] = useState<Instrument>();
     /**
      * Load the instruments
      * @returns The instruments
@@ -43,6 +45,11 @@ export const useInstruments = () => {
         setLoading(false);
 
     };
+    const handleInstrumentPress = (instrument: Instrument) => {
+        console.log(instrument);
+        setOrderModalVisible(true);
+        setInstrument(instrument);
+    }
 
     return {
         loadInstruments,
@@ -50,5 +57,9 @@ export const useInstruments = () => {
         loading,
         error,
         handleSearchInstruments,
+        handleInstrumentPress,
+        orderModalVisible,
+        setOrderModalVisible,
+        instrument,
     };
 };
