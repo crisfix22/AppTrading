@@ -1,4 +1,4 @@
-import { Alert, KeyboardAvoidingView, Platform, View } from "react-native";
+import { Alert, Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import { TextCustomComponent } from "../../global/components/TextCustom/textCustom.component";
 import { InputCustomComponent } from "../../global/components/InputCustom/inputCustom.component";
 import { ButtonCustomComponent } from "../../global/components/ButtonCustom/buttonCustom.component";
@@ -13,14 +13,15 @@ export const LoginScreen = () => {
   const [email, setEmail] = useState("test@test.com");
   const [password, setPassword] = useState("123456");
   const [showPassword, setShowPassword] = useState(false);
-  const { validateEmailAndPassword } = useLogin();
+  const { login } = useLogin();
   const navigation = useNavigation(); 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = () => {
-    if (validateEmailAndPassword(email, password)) {
+  const handleLogin = async () => {
+    const isLoggedIn = await login(email, password);
+    if (isLoggedIn) {
       navigation.navigate("Home");
     } else {
       Alert.alert("Error", "Email o contraseña incorrectos");
@@ -30,7 +31,8 @@ export const LoginScreen = () => {
   
   return (
     <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
-      <TextCustomComponent text="Bienvenido a la App Trading" fontSize="3xl" color="primary"  fontWeight="bold"/>
+      <Image source={require('../login/assets/logo.png')} style={styles.logo} />
+      <TextCustomComponent text="Bienvenido a App Trading" fontSize="3xl" color="primary"  fontWeight="bold"/>
       <TextCustomComponent text="Ingresa tus datos para continuar" fontSize="md" color="secondary"  fontWeight="regular"/>
       <View  style={styles.inputContainer}>
         <InputCustomComponent

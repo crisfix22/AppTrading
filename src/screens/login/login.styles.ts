@@ -19,4 +19,8 @@ export const styles = StyleSheet.create({
     button: {
         marginTop: 40,
     },
+    logo: {
+        width: 200,
+        height: 200,
+    }
 });
