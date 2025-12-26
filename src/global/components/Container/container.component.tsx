@@ -3,7 +3,7 @@ import { ContainerProps } from "./interface/container.interface";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export const ContainerComponent = ({ children, addSafeAreaInsets = true }: ContainerProps) => {
+export const ContainerComponent = ({ children, addSafeAreaInsets = true, backgroundColor = 'white' }: ContainerProps) => {
     const { top, bottom, left, right } = useSafeAreaInsets();
     const [padding, setPadding] = useState({
         paddingTop: 0,
@@ -22,7 +22,7 @@ export const ContainerComponent = ({ children, addSafeAreaInsets = true }: Conta
         }
     }, [addSafeAreaInsets]);
     return (
-        <View style={padding}>
+        <View style={[padding, { backgroundColor }]}>
             {children}
         </View>
     )

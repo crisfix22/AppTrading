@@ -53,3 +53,38 @@ export const getInstruments = async (): Promise<BaseResponse<Array<Instrument>>>
         };
     }
 };
+/**
+ * Search the instruments
+ * @param {string} search - The search term
+ * @returns The instruments
+ */
+export const searchInstruments = async (search: string): Promise<BaseResponse<Array<Instrument>>> => {
+    try {
+        const response = await get<Array<InstrumentResponse>>(`${INSTRUMENTS_URL}/search?query=${search}`);
+        if (response.status === 'success') {
+            const result: Array<Instrument> = response.data.map((instrument: InstrumentResponse) => (   
+                buildInstrument(instrument)
+            ));
+            return {
+                data: result,
+                status: 'success',
+                code: response.code,
+                message: response.message,
+            };
+        } else {
+            return {
+                data: [],
+                status: 'error',
+                code: response.code,
+                message: response.message,
+            };
+        }
+    } catch (error) {
+        return {
+            data: [],
+            status: 'error',
+            code: '500',
+            message: 'Error al buscar los instrumentos',
+        };
+    }
+};
