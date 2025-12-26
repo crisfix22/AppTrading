@@ -9,6 +9,7 @@ export const UserContext = createContext<UserContextInterface>({
         password: '',
     },
     setUser: () => {},
+    clearUser: () => {},
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -18,7 +19,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         email: '',
         password: '',
     });
-    return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+    const clearUser = () => {
+        setUser({
+            id: '',
+            name: '',
+            email: '',
+            password: '',
+        });
+    };
+    return <UserContext.Provider value={{ user, setUser, clearUser }}>{children}</UserContext.Provider>;
 };   
 
 export const useUserContext = () => {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { User } from "../../../global/state/user/interface/userContext.interface";
 import { BaseResponse } from "../../../global/api/interface/axios.interface";
+import { useUserContext } from "../../../global/state/user/userContext.context";
 
 const MOCK_USER: Array<User> = [
     {
@@ -16,7 +17,7 @@ const MOCK_USER: Array<User> = [
         password: '123456',
     },
 ];
-export const loginService = async (email: string, password: string): Promise<BaseResponse<User | null>> => {
+export const login = async (email: string, password: string): Promise<BaseResponse<User | null>> => {
     try {
         const user = MOCK_USER.find(user => user.email === email && user.password === password);
         if (user) {
@@ -41,4 +42,15 @@ export const loginService = async (email: string, password: string): Promise<Bas
             data: null,
         };
     }
+}
+
+export const logout = async (): Promise<BaseResponse<boolean>> => {
+    const { clearUser } = useUserContext();
+    clearUser();
+    return {
+        code: '200',
+        status: 'success',
+        message: 'Logout successful',
+        data: true,
+    };
 }

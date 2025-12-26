@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
 import { useUserContext } from "../../../global/state/user/userContext.context";
-import { loginService } from "../services/login.service";
+import { login as loginService } from "../services/login.service";
 
 export const useLogin = () => {
     const { setUser } = useUserContext();

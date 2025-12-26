@@ -9,6 +9,7 @@ import { StatusBar, useColorScheme } from 'react-native';
 import { RootNavigation } from './src/global/navigation/root.navigation';
 import { InstrumentProvider } from './src/screens/instruments/state/instrumentContext.context';
 import { PortfolioProvider } from './src/screens/portfolio/state/portfolioContext.context';
+import { UserProvider } from './src/global/state/user/userContext.context';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -17,7 +18,9 @@ function App() {
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <InstrumentProvider>
         <PortfolioProvider>
-          <RootNavigation />
+          <UserProvider>
+            <RootNavigation />
+          </UserProvider>
         </PortfolioProvider>
       </InstrumentProvider>
     </SafeAreaProvider>
