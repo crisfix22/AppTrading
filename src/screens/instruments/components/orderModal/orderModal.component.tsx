@@ -1,4 +1,4 @@
-import {Modal, View, TouchableOpacity, Text} from 'react-native'
+import {Modal, View, TouchableOpacity, Text, Alert} from 'react-native'
 import { OrderModalProps, OrderModalValue, OrderTypeValue } from './interface/orderModal.interface'
 import { styles } from './orderModal.styles'
 import { TextCustomComponent } from '../../../../global/components/TextCustom/textCustom.component'
@@ -38,6 +38,14 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
         setSelectedOrderType(value);
     }
     const onConfirm = async () => {
+        if (selectedOrderType === 'limit' && limitPrice === 0) {
+            Alert.alert("Error", "Precio límite es requerido");
+            return;
+        }
+        if (quantity === 0) {
+            Alert.alert("Error", "Cantidad de acciones es requerida");
+            return;
+        }
         const response = await onHandleConfirm({selectedValue, selectedOrderType, limitPrice, data, quantity});
         setOrderResponse(response.data);
         setShowOrderStatusModal(response.data !== null);
