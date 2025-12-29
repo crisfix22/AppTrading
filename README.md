@@ -79,37 +79,11 @@ src/
         └── [screen].styles.ts
 ```
 
-## Sistema de Mocks
+## Login Simulado
 
-La aplicación implementa un sistema de mocks para simular respuestas de API durante el desarrollo. Esto permite:
+El login utiliza datos simulados (mock) para facilitar el desarrollo y pruebas. Los usuarios de prueba están definidos en `screens/login/services/mocks/userMock.ts`.
 
-- **Desarrollo sin backend**: Trabajar en la UI sin depender de un servidor real
-- **Datos consistentes**: Tener datos predecibles para pruebas
-- **Fácil transición**: Reemplazar mocks por llamadas reales cuando el backend esté disponible
-
-### Funcionamiento
-
-Los mocks se ubican en `services/mocks/` dentro de cada pantalla. El servicio importa los datos mock y simula la lógica de respuesta:
-
-```typescript
-// services/mocks/userMock.ts
-export const MOCK_USER = [
-    { id: '1', name: 'Test User', email: 'test@test.com', password: '123456' }
-];
-
-// services/login.service.ts
-import { MOCK_USER } from './mocks/userMock';
-
-export const login = async (email: string, password: string) => {
-    const user = MOCK_USER.find(u => u.email === email && u.password === password);
-    if (user) {
-        return { status: 'success', data: user };
-    }
-    return { status: 'error', message: 'Invalid credentials' };
-};
-```
-
-Para conectar con un backend real, solo se modifica el archivo de servicio reemplazando la lógica mock por llamadas HTTP con axios.
+La arquitectura de carpetas soporta agregar mocks en `services/mocks/` para cualquier pantalla durante el desarrollo. Actualmente, los servicios de instrumentos y portfolio consumen APIs reales.
 
 ## Ventajas de la Estructura
 
