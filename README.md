@@ -1,6 +1,8 @@
 # AppTrading
 
-Aplicación móvil de trading desarrollada con React Native para Android. Permite visualizar instrumentos financieros, gestionar portafolios y realizar operaciones de compra/venta.
+Aplicación móvil de trading desarrollada con React Native para Android e iOS. Permite visualizar instrumentos financieros, gestionar portafolios y realizar operaciones de compra/venta.
+
+> **Nota:** Esta aplicación ha sido desarrollada y probada principalmente en **Android**. La configuración de iOS está disponible pero no ha sido verificada completamente.
 
 ## Capturas de Pantalla
 
@@ -14,10 +16,53 @@ Aplicación móvil de trading desarrollada con React Native para Android. Permit
 
 ## Requisitos Previos
 
-- **Node.js** >= 20
-- **Yarn** (gestor de paquetes)
-- **Android Studio** con Android SDK
-- **JDK** 17+
+### Generales (ambas plataformas)
+
+| Herramienta | Versión | Notas |
+|-------------|---------|-------|
+| **Node.js** | >= 20 | Requerido |
+| **Yarn** | >= 1.22 | Gestor de paquetes |
+| **Watchman** | Última | Recomendado para macOS |
+
+### Para Android
+
+| Herramienta | Versión | Notas |
+|-------------|---------|-------|
+| **JDK** | 17+ | OpenJDK o Amazon Corretto |
+| **Android Studio** | Última estable | Con Android SDK |
+| **Android SDK** | API 36 (Android 15) | Compile & Target SDK |
+| **Build Tools** | 36.0.0 | |
+| **NDK** | 27.1.12297006 | Opcional, para módulos nativos |
+
+**Variables de entorno requeridas:**
+
+```bash
+# Agregar a ~/.zshrc o ~/.bashrc
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+### Para iOS (solo macOS)
+
+| Herramienta | Versión | Notas |
+|-------------|---------|-------|
+| **macOS** | 13+ | Ventura o superior |
+| **Xcode** | 15+ | Incluye simulador iOS |
+| **CocoaPods** | >= 1.14 | Gestor de dependencias iOS |
+| **Ruby** | >= 2.7 | Para CocoaPods |
+
+**Instalación de CocoaPods:**
+
+```bash
+sudo gem install cocoapods
+```
+
+### Configuración del Entorno
+
+Para una guía completa de configuración del entorno de desarrollo, consulta la documentación oficial:
+
+- [Configuración del entorno React Native](https://reactnative.dev/docs/set-up-your-environment)
 
 ## Instalación
 
@@ -32,6 +77,11 @@ cd AppTrading
 yarn install
 ```
 
+3. (Solo iOS) Instalar pods:
+```bash
+cd ios && pod install && cd ..
+```
+
 ## Ejecutar el Proyecto
 
 1. Iniciar el servidor Metro:
@@ -39,12 +89,19 @@ yarn install
 yarn start
 ```
 
-2. En otra terminal, compilar y ejecutar en Android:
+2. En otra terminal, compilar y ejecutar:
+
+**Android:**
 ```bash
 yarn android
 ```
 
-> **Nota:** Asegúrate de tener un emulador Android corriendo o un dispositivo conectado.
+**iOS:**
+```bash
+yarn ios
+```
+
+> **Nota:** Asegúrate de tener un emulador/simulador corriendo o un dispositivo conectado.
 
 ## Credenciales de Prueba
 
@@ -102,6 +159,7 @@ La arquitectura de carpetas soporta agregar mocks en `services/mocks/` para cual
 |---------|-------------|
 | `yarn start` | Inicia el servidor Metro (bundler) |
 | `yarn android` | Compila y ejecuta la app en Android |
+| `yarn ios` | Compila y ejecuta la app en iOS |
 | `yarn lint` | Ejecuta ESLint para verificar el código |
 
 ## Tecnologías Principales
