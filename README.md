@@ -1,5 +1,5 @@
 # AppTrading
-Aplicación móvil de trading desarrollada con React Native para Android Permite visualizar instrumentos financieros, gestionar portafolios y realizar operaciones de compra/venta.
+Aplicación móvil de trading desarrollada con React Native para Android. Permite visualizar instrumentos financieros, gestionar portafolios y realizar operaciones de compra/venta.
 
 ## Capturas de Pantalla
 
