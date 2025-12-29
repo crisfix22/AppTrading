@@ -1,4 +1,4 @@
-import {Modal, View, TouchableOpacity, Text, Alert} from 'react-native'
+import {Modal, View, TouchableOpacity, Text, Alert, KeyboardAvoidingView} from 'react-native'
 import { OrderModalProps, OrderModalValue, OrderTypeValue } from './interface/orderModal.interface'
 import { styles } from './orderModal.styles'
 import { TextCustomComponent } from '../../../../global/components/TextCustom/textCustom.component'
@@ -58,7 +58,7 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
     return (
         <Modal visible={showOrderModal} transparent animationType="slide" onRequestClose={onRequestClose}>
             <View style={modalStyles.modalOverlay}>
-                <View style={[modalStyles.modalContent]}>
+                <KeyboardAvoidingView behavior="padding" style={[modalStyles.modalContent]}>
                     {/* Header */}
                     <View style={styles.header}>
                         <View>
@@ -132,7 +132,7 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                             order={orderResponse} 
                         />
                     )}
-                </View>
+                </KeyboardAvoidingView>
             </View>
         </Modal>
     )

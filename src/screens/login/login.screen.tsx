@@ -42,6 +42,8 @@ export const LoginScreen = () => {
           onChangeText={(text) => setEmail(text)}
           nativeTextInputProps={{
             value: email,
+            keyboardType: 'email-address',
+            autoCapitalize: 'none',
           }}
           rightIcon={<Ionicons name="mail" size={24} color={Colors.outline} />}
         />
@@ -55,6 +57,7 @@ export const LoginScreen = () => {
           nativeTextInputProps={{
             secureTextEntry: !showPassword,
             value: password,
+            autoCapitalize: 'none',
           }}
         />
       </View>
