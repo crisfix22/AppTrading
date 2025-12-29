@@ -4,9 +4,13 @@ Aplicación móvil de trading desarrollada con React Native para Android. Permit
 
 ## Capturas de Pantalla
 
-| Login | Instrumentos | Portfolio | Perfil |
-|-------|--------------|-----------|--------|
-| ![Login](docs/screenshots/login.png) | ![Instrumentos](docs/screenshots/instruments.png) | ![Portfolio](docs/screenshots/portfolio.png) | ![Perfil](docs/screenshots/profile.png) |
+| Login | Instrumentos | Portfolio |
+|-------|--------------|-----------|
+| ![Login](docs/screenshots/login.png) | ![Instrumentos](docs/screenshots/instruments.png) | ![Portfolio](docs/screenshots/portfolio.png) |
+
+| Perfil | Orden Compra | Orden Venta |
+|--------|--------------|-------------|
+| ![Perfil](docs/screenshots/profile.png) | ![Orden Compra](docs/screenshots/order-buy.png) | ![Orden Venta](docs/screenshots/order-sell.png) |
 
 ## Requisitos Previos
 
@@ -19,7 +23,7 @@ Aplicación móvil de trading desarrollada con React Native para Android. Permit
 
 1. Clonar el repositorio:
 ```bash
-git clone <repo-url>
+git clone https://github.com/crisfix22/AppTrading
 cd AppTrading
 ```
 
@@ -42,6 +46,15 @@ yarn android
 
 > **Nota:** Asegúrate de tener un emulador Android corriendo o un dispositivo conectado.
 
+## Credenciales de Prueba
+
+La aplicación utiliza un sistema de autenticación simulado con mocks. Para ingresar, usa las siguientes credenciales:
+
+| Email | Contraseña |
+|-------|------------|
+| `test@test.com` | `123456` |
+| `john.doe@example.com` | `123456` |
+
 ## Estructura de Carpetas
 
 ```
@@ -60,10 +73,43 @@ src/
         ├── components/        # Componentes específicos de la pantalla
         ├── hooks/             # Custom hooks de la pantalla
         ├── services/          # Llamadas a API y lógica de servicios
+        │   └── mocks/         # Datos simulados para desarrollo/testing
         ├── state/             # Estado local (Context específico)
         ├── [screen].screen.tsx
         └── [screen].styles.ts
 ```
+
+## Sistema de Mocks
+
+La aplicación implementa un sistema de mocks para simular respuestas de API durante el desarrollo. Esto permite:
+
+- **Desarrollo sin backend**: Trabajar en la UI sin depender de un servidor real
+- **Datos consistentes**: Tener datos predecibles para pruebas
+- **Fácil transición**: Reemplazar mocks por llamadas reales cuando el backend esté disponible
+
+### Funcionamiento
+
+Los mocks se ubican en `services/mocks/` dentro de cada pantalla. El servicio importa los datos mock y simula la lógica de respuesta:
+
+```typescript
+// services/mocks/userMock.ts
+export const MOCK_USER = [
+    { id: '1', name: 'Test User', email: 'test@test.com', password: '123456' }
+];
+
+// services/login.service.ts
+import { MOCK_USER } from './mocks/userMock';
+
+export const login = async (email: string, password: string) => {
+    const user = MOCK_USER.find(u => u.email === email && u.password === password);
+    if (user) {
+        return { status: 'success', data: user };
+    }
+    return { status: 'error', message: 'Invalid credentials' };
+};
+```
+
+Para conectar con un backend real, solo se modifica el archivo de servicio reemplazando la lógica mock por llamadas HTTP con axios.
 
 ## Ventajas de la Estructura
 

@@ -2,21 +2,8 @@ import axios from "axios";
 import { User } from "../../../global/state/user/interface/userContext.interface";
 import { BaseResponse } from "../../../global/api/interface/axios.interface";
 import { useUserContext } from "../../../global/state/user/userContext.context";
+import { MOCK_USER } from "./mocks/userMock";
 
-const MOCK_USER: Array<User> = [
-    {
-        id: '1',
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        password: '123456',
-    },
-    {
-        id: '2',
-        name: 'Test User',
-        email: 'test@test.com',
-        password: '123456',
-    },
-];
 export const login = async (email: string, password: string): Promise<BaseResponse<User | null>> => {
     try {
         const user = MOCK_USER.find(user => user.email === email && user.password === password);
