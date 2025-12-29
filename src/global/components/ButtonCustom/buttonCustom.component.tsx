@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, ViewStyle} from 'react-native';
+import { TouchableOpacity, ActivityIndicator, ViewStyle} from 'react-native';
 import { styles } from './buttonCustom.styles';
 import { ButtonCustomProps } from './interface/buttomCustom.interface';
 import { TextCustomComponent } from '../TextCustom/textCustom.component';

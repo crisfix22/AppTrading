@@ -1,10 +1,12 @@
 import { Instrument } from "../../../services/interface/instruments.interface";
+import { OrderResponse } from "../../../services/interface/order.interface";
 
 
 export interface OrderModalProps {
     visible: boolean;
     onRequestClose: () => void;
     data: Instrument;
+    onOrderSuccess: (order: OrderResponse) => void;
 }
 
 export type OrderModalValue = 'buy' | 'sell';

@@ -2,7 +2,6 @@ import { View } from "react-native"
 import { ButtonCustomComponent } from "../ButtonCustom/buttonCustom.component"
 import { ButtonGroupButton, ButtonGroupProps } from "./interface/buttonGroup.interface"
 import { styles } from "./buttonGroup.style"
-import { useEffect } from "react"
 
 export const ButtonGroupComponent = <Value,>({ buttons, onValueChange, selectedValue, containerStyle }: ButtonGroupProps<Value>) => {
 

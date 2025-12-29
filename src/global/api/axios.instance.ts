@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { BaseResponse } from "./interface/axios.interface";
 
 const axiosInstance = axios.create({

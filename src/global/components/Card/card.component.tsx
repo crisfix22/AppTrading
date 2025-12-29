@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { CardProps } from "./interface/card.interface";
 import { styles } from "./card.styles";
 

@@ -1,5 +1,4 @@
 import { ButtonProps, StyleProp, TouchableOpacityProps, ViewStyle } from "react-native";
-import { styles } from "../buttonCustom.styles";
 import { ColorType } from "../../../styles/color.styles";
 
 export type ButtonVariantType = 'primary' | 'secondary' | 'success' | 'danger' | 'outline' | 'ghost' ;

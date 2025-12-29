@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { styles } from './inputCustom.styles';
 import { InputCustomProps } from './interface/inputCustom.interface';
 import { TextCustomComponent } from '../TextCustom/textCustom.component';
@@ -45,6 +45,7 @@ export const InputCustomComponent = ({ label,error,helperText,size = 'md',
             onFocus?.();
           }}
           onBlur={(e) => {
+            console.log('onBlur', e);
             setIsFocused(false);
             onBlur?.();
           }}

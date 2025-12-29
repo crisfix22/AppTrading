@@ -1,4 +1,4 @@
-import { FontSize, FontSizeType, FontSizes, FontWeightType } from "../interfaces/textCustom.interface";
+import { FontSizeType, FontSizes } from "../interfaces/textCustom.interface";
 import { useColors } from "../../../styles/hooks/colors/useColors.hook";
 
 export const useTextCustom = () => {

@@ -9,10 +9,9 @@ import { useOrderModal } from './hooks/useOrderModal.hook'
 import { InputCustomComponent } from '../../../../global/components/InputCustom/inputCustom.component'
 import { useEffect, useState } from 'react'
 import { ButtonVariantType } from '../../../../global/components/ButtonCustom/interface/buttomCustom.interface'
-import { OrderResponse } from '../../services/interface/order.interface'
-import { OrderStatusModalComponent } from '../orderStatusModal/orderStatusModal.component'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalProps) => {
+export const OrderModalComponent = ({visible, onRequestClose, data, onOrderSuccess}: OrderModalProps) => {
     const [selectedValue, setSelectedValue] = useState<OrderModalValue>('buy');
     const [confirmTitle, setConfirmTitle] = useState('Confirmar Compra');
     const [confirmButtonVariant, setConfirmButtonVariant] = useState<ButtonVariantType>('success');
@@ -20,10 +19,9 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
     const [limitPrice, setLimitPrice] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(0);
     const { getHeaderButtons, getOrderTypeButtons, onHandleConfirm} = useOrderModal();
-    const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(null);
-    const [showOrderStatusModal, setShowOrderStatusModal] = useState(false);
     const [showOrderModal, setShowOrderModal] = useState(visible);
     const [loading, setLoading] = useState(false);
+    const { bottom } = useSafeAreaInsets();
 
     useEffect(() => {
         console.log('visible', visible);
@@ -52,14 +50,15 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
         }
         const response = await onHandleConfirm({selectedValue, selectedOrderType, limitPrice, data, quantity});
         setLoading(false);
-        setOrderResponse(response.data);
-        setShowOrderStatusModal(response.data !== null);
+        setShowOrderModal(false);
+        if (response.data) {
+            onOrderSuccess(response.data);
+        }
     }
     return (
         <Modal visible={showOrderModal} transparent animationType="slide" onRequestClose={onRequestClose}>
             <View style={modalStyles.modalOverlay}>
-                <KeyboardAvoidingView behavior="padding" style={[modalStyles.modalContent]}>
-                    {/* Header */}
+                <KeyboardAvoidingView behavior="padding" style={modalStyles.modalContent}>
                     <View style={styles.header}>
                         <View>
                             <TextCustomComponent text={data.ticker} fontSize="lg" color="primary" fontWeight="bold" />
@@ -70,7 +69,6 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                         </TouchableOpacity>
                     </View>
 
-                    {/* Buy/Sell Selector */}
                     <ButtonGroupComponent 
                         buttons={getHeaderButtons()} 
                         onValueChange={onValueChange} 
@@ -78,7 +76,6 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                         containerStyle={styles.sideSelector}
                     />
 
-                    {/* Order Type */}
                     <View style={styles.orderType}>
                         <TextCustomComponent text="Tipo de Orden" fontSize="sm" color="secondary" fontWeight="bold" />
                         <ButtonGroupComponent 
@@ -89,7 +86,6 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                         />
                     </View>
 
-                    {/* Limit Price Input */}
                     {selectedOrderType === 'limit' && (
                         <View style={styles.limitPrice}>
                             <TextCustomComponent text="PRECIO LÍMITE" fontSize="sm" color="muted" fontWeight="bold" />
@@ -101,7 +97,6 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                         </View>
                     )}
 
-                    {/* Quantity Input */}
                     <View style={styles.quantityContainer}>
                         <TextCustomComponent text="CANTIDAD DE ACCIONES" fontSize="sm" color="muted" fontWeight="bold" />
                         <InputCustomComponent 
@@ -111,7 +106,6 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                         />
                     </View>
 
-                    {/* Submit Button */}
                     <ButtonCustomComponent 
                         title={confirmTitle} 
                         variant={confirmButtonVariant} 
@@ -119,19 +113,7 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                         loading={loading}
                         fullWidth
                     />
-
-                    {/* Order Status Modal */}
-                    {orderResponse && (
-                        <OrderStatusModalComponent 
-                            visible={showOrderStatusModal} 
-                            onRequestClose={() => {
-                                setShowOrderStatusModal(false);
-                                setShowOrderModal(false);
-                                onRequestClose();
-                            }} 
-                            order={orderResponse} 
-                        />
-                    )}
+                    <View style={{height: bottom}} />
                 </KeyboardAvoidingView>
             </View>
         </Modal>
