@@ -23,6 +23,7 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
     const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(null);
     const [showOrderStatusModal, setShowOrderStatusModal] = useState(false);
     const [showOrderModal, setShowOrderModal] = useState(visible);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         console.log('visible', visible);
@@ -38,15 +39,19 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
         setSelectedOrderType(value);
     }
     const onConfirm = async () => {
+        setLoading(true);
         if (selectedOrderType === 'limit' && limitPrice === 0) {
             Alert.alert("Error", "Precio límite es requerido");
+            setLoading(false);
             return;
         }
         if (quantity === 0) {
             Alert.alert("Error", "Cantidad de acciones es requerida");
+            setLoading(false);
             return;
         }
         const response = await onHandleConfirm({selectedValue, selectedOrderType, limitPrice, data, quantity});
+        setLoading(false);
         setOrderResponse(response.data);
         setShowOrderStatusModal(response.data !== null);
     }
@@ -111,6 +116,7 @@ export const OrderModalComponent = ({visible, onRequestClose, data}: OrderModalP
                         title={confirmTitle} 
                         variant={confirmButtonVariant} 
                         onPress={onConfirm}
+                        loading={loading}
                         fullWidth
                     />
 
