@@ -10,8 +10,8 @@ import { StackActions, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
 
 export const LoginScreen = () => {
-  const [email, setEmail] = useState("test@test.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useLogin();
   const navigation = useNavigation(); 
